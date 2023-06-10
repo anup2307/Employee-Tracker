@@ -80,17 +80,12 @@ function getManagerlist(){
     return managerlist;
 }
 
-var employeeArr= [];
 function getEmployeelist(){
-    db.query('select id,concat(first_name," ",last_name) as employeeName from employee', function(err,res){
-        if(err) throw err
-        for (var i=0; i<res.length; i++){
-            employeeArr.push({name:res[i].employeeName,value:res[i].id})
-            console.log(employeeArr);
-        }
-    }) 
-    
-    return employeeArr;
+     return db.promise().query('select id as value,concat(first_name," ",last_name) as name from employee')
+     .then(([rows,fields])=>{
+        return rows;
+     })
+    .catch((err)=> console.log(err))
 }
 
 var departmentArr= [];
@@ -124,7 +119,7 @@ function selectRole(){
 
 function selectEmployee(){
     console.log('in employee')
-    db.query('select employee.id as Emp_Id, first_name as First_Name, last_name as Last_name, title as Job_Title, salary, dep_name as Department_name, m.emp_name as manager_name from employee, role, department, (select id,  concat(first_name," ", last_name) as emp_name from employee) M where employee.role_id=role.id and 	role.department_id=department.id    and	m.id=employee.manager_id   order by emp_id; ',
+    db.query('select employee.id as Emp_Id, first_name as First_Name, last_name as Last_name, title as Job_Title, salary, dep_name as Department_name, m.emp_name as manager_name from employee, role, department, (select id,  concat(first_name," ", last_name) as emp_name from employee) M where employee.role_id=role.id and role.department_id=department.id and m.id=employee.manager_id order by emp_id; ',
      function (err, results) {
         if (err){console.log('Error viewing table')} 
         else{ console.table(results);
@@ -224,29 +219,32 @@ function addEmployee(){
 }
 
 function updateRole(){
-    inquirer.prompt([
-        {
-            type: 'list',
-            name:'employee_id',
-            message: 'Which employee role do you want to update? ',
-            choices: getEmployeelist()
-        },
-        {
-            type:'list',
-            name:'role',
-            message: 'Which role do you want to assign to the selected employee? ',
-            choices: getRoles()
-        }
-])
-.then(({employee_id,role}) => {
-    db.query('update employee set role_id =? where id = ?',[role,employee_id], function(err,res){
-        if (err){ console.log('Error in Updating employee role')}
-        else{ 
-            console.log('Updated Employee role');
-            questions();
-        }
+    getEmployeelist()
+    .then((choices) => {   
+        inquirer.prompt([
+            {
+                type: 'list',
+                name:'employee_id',
+                message: "Which employee's role do you want to update? ",
+                choices: choices
+            },
+            {
+                type:'list',
+                name:'role',
+                message: 'Which role do you want to assign to the selected employee? ',
+                choices: getRoles()
+            }
+        ])
+        .then(({employee_id,role}) => {
+            db.query('update employee set role_id =? where id = ?',[role,employee_id], function(err,res){
+                if (err){ console.log('Error in Updating employee role')}
+                else{ 
+                    console.log('Updated Employee role');
+                    questions();
+                }
+            })
+        })
     })
-})
 }
 
 questions();

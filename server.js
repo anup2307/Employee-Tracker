@@ -28,7 +28,6 @@ function questions(){
     }
 ])
 .then((answer) => {
-    console.log(answer);
     switch (answer.action){        
         case 'View All Departments':
             selectDepartment();
@@ -118,8 +117,7 @@ function selectRole(){
 }
 
 function selectEmployee(){
-    console.log('in employee')
-    db.query('select employee.id as Emp_Id, first_name as First_Name, last_name as Last_name, title as Job_Title, salary, dep_name as Department_name, m.emp_name as manager_name from employee, role, department, (select id,  concat(first_name," ", last_name) as emp_name from employee) M where employee.role_id=role.id and role.department_id=department.id and m.id=employee.manager_id order by emp_id; ',
+    db.query('select employee.id as Emp_Id, first_name as First_Name, last_name as Last_name, title as Job_Title, salary, dep_name as Department_name ,m.emp_name as manager_name from employee,role,department,(select id,  concat(first_name," ", last_name) as emp_name from employee ) M where employee.role_id=role.id and role.department_id=department.id and m.id=employee.manager_id union all select employee.id as Emp_Id, first_name as First_Name, last_name as Last_name, title as Job_Title, salary, dep_name as Department_name ,null as manager_name from employee,role,department where employee.role_id=role.id and role.department_id=department.id and employee.manager_id is null order by emp_id;',
      function (err, results) {
         if (err){console.log('Error viewing table')} 
         else{ console.table(results);

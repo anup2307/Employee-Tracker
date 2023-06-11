@@ -29,6 +29,19 @@ THEN I am prompted to enter the employee’s first name, last name, role, and ma
 WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
 ```
-## Demo:
+## Demo: https://watch.screencastify.com/v/YFdLTRd7ddRsuoqTWiKq
 
 ## Screenshots
+![image](https://github.com/anup2307/Employee-Tracker/assets/124316722/69955be5-1fee-4f39-9f75-908ee658bd5c)
+![image](https://github.com/anup2307/Employee-Tracker/assets/124316722/d52eb1a7-f590-40bf-bcda-83bff4d1df37)
+![image](https://github.com/anup2307/Employee-Tracker/assets/124316722/c493df2f-4beb-48e2-978f-20107a38db0d)
+![image](https://github.com/anup2307/Employee-Tracker/assets/124316722/8743c94e-7a90-44ff-a354-a25ef0ed1c7b)
+![image](https://github.com/anup2307/Employee-Tracker/assets/124316722/f51e4072-2ac7-4ce4-81ab-ce9a24e7668d)
+![image](https://github.com/anup2307/Employee-Tracker/assets/124316722/481b83f3-a0c1-4808-9541-0fa4bb9cdcc2)
+![image](https://github.com/anup2307/Employee-Tracker/assets/124316722/2259ed35-7aef-4495-a4f0-ccd18abdeec5)
+![Record added](https://github.com/anup2307/Employee-Tracker/assets/124316722/d7b71acc-e275-4fa2-b093-afa03c0a36e6)
+
+
+
+
+
